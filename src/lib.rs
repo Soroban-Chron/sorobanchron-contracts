@@ -54,3 +54,47 @@ pub fn validate_interval(_env: Env, interval_secs: u64) -> bool {
         let _ = amount;
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use soroban_sdk::{testutils::Address as TestAddress, Address, Env, Symbol, Vec};
+
+    fn generate_address(env: &Env) -> Address {
+        Address::from_contract_id(&env, &TestAddress::random(&env).to_bytes())
+    }
+
+    #[test]
+    fn test_register_and_retrieve_job_spec() {
+        let env = Env::default();
+        let job_id = Symbol::short("job1");
+        let payload = Vec::from_slice(&env, b"keep-alive");
+
+        KeeperRegistry::register_job(env.clone(), job_id.clone(), payload.clone());
+        let stored = KeeperRegistry::get_job_spec(env, job_id).expect("job should exist");
+
+        assert_eq!(stored, payload);
+    }
+
+    #[test]
+    fn test_job_count_increments() {
+        let env = Env::default();
+        let job_one = Symbol::short("job1");
+        let job_two = Symbol::short("job2");
+
+        KeeperRegistry::register_job(env.clone(), job_one, Vec::from_slice(&env, b"a"));
+        KeeperRegistry::register_job(env.clone(), job_two, Vec::from_slice(&env, b"b"));
+
+        assert_eq!(KeeperRegistry::job_count(env), 2);
+    }
+
+    #[test]
+    fn test_validate_interval_bounds() {
+        let env = Env::default();
+
+        assert!(KeeperRegistry::validate_interval(env.clone(), 1));
+        assert!(KeeperRegistry::validate_interval(env.clone(), 86_400));
+        assert!(!KeeperRegistry::validate_interval(env.clone(), 0));
+        assert!(!KeeperRegistry::validate_interval(env.clone(), 86_401));
+    }
+}
