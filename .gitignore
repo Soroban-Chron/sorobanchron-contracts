@@ -1,3 +1,14 @@
-target/
-**/*.wasm
+# Rust artifacts
+/target/
 Cargo.lock
+
+# WASM outputs
+**/*.wasm
+
+# Generated bindings
+/bindings/
+
+# Editor files
+*.swp
+*.swo
+.DS_Store

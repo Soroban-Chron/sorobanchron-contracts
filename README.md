@@ -51,10 +51,17 @@ cd sorobanchron-contracts
 
 ## Run locally
 
+To build and test locally, run:
+
 ```bash
 cargo build --target wasm32-unknown-unknown
 cargo test
 ```
+
+## Continuous integration
+
+The project runs `cargo build --target wasm32-unknown-unknown` and `cargo test` on every push and pull request via GitHub Actions.
+
 
 To build the deployable WASM and verify contract behavior:
 

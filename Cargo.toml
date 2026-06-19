@@ -3,6 +3,9 @@ name = "sorobanchron-contracts"
 version = "0.1.0"
 edition = "2021"
 description = "SorobanChron smart contract registry for automation jobs, rewards, and keeper coordination"
+repository = "https://github.com/Soroban-Chron/sorobanchron-contracts"
+readme = "README.md"
+keywords = ["soroban", "stellar", "automation", "keeper", "smart-contract"]
 license = "MIT OR Apache-2.0"
 publish = false
 
