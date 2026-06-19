@@ -32,6 +32,10 @@ impl KeeperRegistry {
         env.storage().get(&DataKey::JobSpec(job_id))
     }
 
+    pub fn has_job(env: Env, job_id: Symbol) -> bool {
+        env.storage().has(&DataKey::JobSpec(job_id))
+    }
+
     pub fn delete_job(env: Env, job_id: Symbol) {
         if env.storage().has(&DataKey::JobSpec(job_id.clone())) {
             let count: u64 = env.storage().get(&DataKey::JobCount).unwrap_or(0);
@@ -84,6 +88,16 @@ mod test {
         KeeperRegistry::register_job(env.clone(), job_two, Vec::from_slice(&env, b"b"));
 
         assert_eq!(KeeperRegistry::job_count(env), 2);
+    }
+
+    #[test]
+    fn test_has_job() {
+        let env = Env::default();
+        let job_id = Symbol::short("job1");
+
+        assert!(!KeeperRegistry::has_job(env.clone(), job_id.clone()));
+        KeeperRegistry::register_job(env.clone(), job_id.clone(), Vec::from_slice(&env, b"payload"));
+        assert!(KeeperRegistry::has_job(env, job_id));
     }
 
     #[test]
