@@ -51,6 +51,11 @@ cd sorobanchron-contracts
 
 ## Run locally
 
+## Continuous integration
+
+The project runs `cargo build --target wasm32-unknown-unknown` and `cargo test` on every push and pull request via GitHub Actions.
+
+
 ```bash
 cargo build --target wasm32-unknown-unknown
 cargo test
