@@ -1,0 +1,13 @@
+[package]
+name = "sorobanchron-contracts"
+version = "0.1.0"
+edition = "2021"
+description = "SorobanChron smart contract registry for automation jobs, rewards, and keeper coordination"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = "0.27.1"
